@@ -1,0 +1,110 @@
+---
+title: "hw3"
+author: "cyber-atlas"
+date: "February 13, 2019"
+output: html_document
+---
+
+1) Returns the number of parties the waiter served
+
+```{r}
+data(tips, package="reshape2")
+
+head(tips)
+
+#Returns the number 
+numParty <- nrow(tips)
+#The number of parties
+numParty
+
+```
+
+2) 
+
+```{r}
+#Goes throught the indeces of the columns of the dataframe and returns the typeof them
+sapply(tips, typeof)
+
+```
+3)
+
+```{r}
+tips$day
+class(tips$day)
+day <- c(tips$day)
+#TODO Check this, pretty sure this is a vector
+class(day)
+day
+
+#TODO order factor levels from Thursday-Sunday
+day2 <- factor(tips$day)
+head(day2)
+day2
+class(day2)
+day2 <- factor(ordered(day2, levels=(c("Thur", "Fri", "Sat","Sun"))))
+day2
+class(day2)
+print(day2)
+
+help(day2)
+
+```
+
+4)
+
+```{r}
+#Make a dataframe of the meals with a party greater than or equal to 5 people that was paid by a female
+female5 <- tips[tips$sex == 'Female' & tips$size >= 5,]
+#Prove that it's a dataframe
+class(female5)
+#Print the female5 dataframe
+female5
+
+```
+
+5)
+
+```{r}
+library(ggplot2)
+head(tips)
+#Scatter plot showing the tips based on the total bill
+#TODO make another scatterplot with a trend line?
+ggplot(tips, aes(x= tips$total_bill, y=tips$tip))+
+  geom_point()
+#TOOD Find a way to make a boxplot 
+ggplot(tips, aes(x=total_bill, y=tip))+
+  geom_boxplot()
+
+ggplot(tips, aes(x=total_bill, y=tip))+
+  geom_line()
+
+ggplot(tips, aes(x=total_bill, y=tip))+
+  geom_bar(stat="identity")
+
+#TODO find a cleaner way to compare the data
+
+```
+6)
+
+```{r}
+
+
+tiprate <- tips
+class(tiprate)
+
+tiprate$rate <- tiprate$tip/tiprate$total_bill
+tiprate
+```
+
+7)
+
+```{r}
+```
+
+8)
+
+```{r}
+#relationship between tip, total bill, female smoker, male smoker, female non smoker, male non smoker
+
+```
+
