@@ -29,7 +29,7 @@ sapply(tips, typeof)
 
 ```{r}
 #data(tips, package="reshape2")
-#tips$day
+day <- tips$day
 
 class(tips$day)
 day <- day[order(match(day,  c("Thur","Fri","Sat","Sun")))]
