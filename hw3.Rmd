@@ -38,10 +38,15 @@ day
 
 #TODO order factor levels from Thursday-Sunday
 day2 <- factor(tips$day)
+relevel(day2, "Thur")
+levels(day2)
+
+
 head(day2)
 day2
 class(day2)
 day2 <- factor(ordered(day2, levels=(c("Thur", "Fri", "Sat","Sun"))))
+relevel(day, "Thur")
 day2
 class(day2)
 print(day2)
@@ -92,13 +97,18 @@ ggplot(tips, aes(x=total_bill, y=tip))+
 tiprate <- tips
 class(tiprate)
 
-tiprate$rate <- tiprate$tip/tiprate$total_bill
-tiprate
+tips$rate <- tiprate$tip/tiprate$total_bill
+# TODO get the average of tips
 ```
 
 7)
 
 ```{r}
+time = tips$time
+level <- levels(time)
+time <- factor(time, levels = rev(level))
+ggplot(tips, aes(x=time, y=rate))+ geom_boxplot()
+
 ```
 
 8)
@@ -106,5 +116,17 @@ tiprate
 ```{r}
 #relationship between tip, total bill, female smoker, male smoker, female non smoker, male non smoker
 
+
+
 ```
+
+9) 
+
+```{r}
+
+ggplot(tips, aes(x=day, fill=sex)) + geom_bar(position="dodge")
+
+```
+
+Based on the relationship shown in the gaph, we can conclude that on average men pay for a majority of the bills on Saturdays and Sundays. On Thursday Women pay more than men, and on Fridays it's roughly equal with men paying slighly more. 
 
