@@ -9,7 +9,6 @@ output: html_document
 
 ```{r}
 data(tips, package="reshape2")
-
 head(tips)
 
 #Returns the number 
@@ -29,30 +28,13 @@ sapply(tips, typeof)
 3)
 
 ```{r}
-tips$day
+#data(tips, package="reshape2")
+#tips$day
+
 class(tips$day)
-day <- c(tips$day)
-#TODO Check this, pretty sure this is a vector
-class(day)
+day <- day[order(match(day,  c("Thur","Fri","Sat","Sun")))]
+#head(day)
 day
-
-#TODO order factor levels from Thursday-Sunday
-day2 <- factor(tips$day)
-relevel(day2, "Thur")
-levels(day2)
-
-
-head(day2)
-day2
-class(day2)
-day2 <- factor(ordered(day2, levels=(c("Thur", "Fri", "Sat","Sun"))))
-relevel(day, "Thur")
-day2
-class(day2)
-print(day2)
-
-help(day2)
-
 ```
 
 4)
@@ -73,41 +55,36 @@ female5
 library(ggplot2)
 head(tips)
 #Scatter plot showing the tips based on the total bill
-#TODO make another scatterplot with a trend line?
 ggplot(tips, aes(x= tips$total_bill, y=tips$tip))+
-  geom_point()
-#TOOD Find a way to make a boxplot 
-ggplot(tips, aes(x=total_bill, y=tip))+
-  geom_boxplot()
-
-ggplot(tips, aes(x=total_bill, y=tip))+
-  geom_line()
-
-ggplot(tips, aes(x=total_bill, y=tip))+
-  geom_bar(stat="identity")
-
-#TODO find a cleaner way to compare the data
+  geom_point()+ 
+  geom_smooth()
 
 ```
+
+One anomoly in the dataset is that a majority of the points are clustered in the under $25 range and less points are above that. So there is not an even amount of data for both ranges. 
+Another anomoly is that on both low end and the high end, there are outliers. Above the $30 mark the tips as a whole did not increase by much, except for some very high tips (outliers) which skew the trend line.
+
 6)
 
 ```{r}
 
-
 tiprate <- tips
 class(tiprate)
 
-tips$rate <- tiprate$tip/tiprate$total_bill
-# TODO get the average of tips
+tips$tiprate <- tiprate$tip/tiprate$total_bill
+mean(tips$tiprate)
+
 ```
+
+The average tiprate is 16%
 
 7)
 
 ```{r}
-time = tips$time
-level <- levels(time)
-time <- factor(time, levels = rev(level))
-ggplot(tips, aes(x=time, y=rate))+ geom_boxplot()
+ggplot(tips, aes(x=time, y=tiprate))+
+  geom_boxplot()+
+  #Allows, to specify labels, in which order, we want on the scale
+  scale_x_discrete(limits=c("Lunch", "Dinner"))
 
 ```
 
@@ -116,9 +93,11 @@ ggplot(tips, aes(x=time, y=rate))+ geom_boxplot()
 ```{r}
 #relationship between tip, total bill, female smoker, male smoker, female non smoker, male non smoker
 
-
+ggplot(tips, aes(x=total_bill, y=tip,  color=sex, shape=smoker))+ geom_point()+ facet_wrap(~day, scales='free_x') 
 
 ```
+
+When the bill is lower the outliers that tip higher are smokers, independent of sex. Wehn the bill is higher, the amount of the tip is about equal regarless if they smoke. Mostly men are paying the more expensive bills.
 
 9) 
 
